@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("gymdata.csv")
 
@@ -49,601 +50,98 @@ print("\nCorrelation between duration and calories:",correlation)
 
 #Average calories by workout type
 workoutTypeGroup = df.groupby("Workout_Type")
-print("\n",workoutTypeGroup["Calories_Burned"].mean())
+averageBurned_calorie = workoutTypeGroup["Calories_Burned"].mean()
+print("\n",averageBurned_calorie)
 
 #Calories by fitness level
 FitnessLevelGroup = df.groupby("Fitness_Level")
-print("\n",FitnessLevelGroup["Calories_Burned"].mean())
+average_calorie = FitnessLevelGroup["Calories_Burned"].mean()
+print("\n",average_calorie)
 
 # Most frequent workout type
 most_common = df["Workout_Type"].value_counts()
 print("\nWorkout Counts:\n",most_common)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Create a scatter plot showing the relationship between workout duration and calories burned.
+workoutDuration = df["Workout_Duration"]
+caloriesBurned = df["Calories_Burned"]
+plt.scatter(workoutDuration,caloriesBurned)
+plt.xlabel("Workout Duration")
+plt.ylabel("Calories Burned")
+plt.title("Relation of Calorie and Workout Duration")
+plt.grid(color = "blue", linestyle = "dashed")
+plt.savefig("scatter_calories_vs_duration.png")
+plt.show()
+
+
+# Calculate the average calories burned for each workout type.
+# Visualize the average calories by workout type using a bar chart.
+# Customize the bar chart with:
+# Proper labels
+# Title
+# Grid lines on one axis
+plt.bar(averageBurned_calorie.index, averageBurned_calorie.values)
+plt.title("Average Calories Burned Per Workout Type")
+plt.xlabel("Workout Type")
+plt.ylabel("Average Calorie")
+plt.grid(axis = "y")
+plt.savefig("bar_avg_calories_by_workout.png")
+plt.show()
+
+# Count how many users belong to each workout type.
+# Display the workout type distribution using a pie chart.
+# Customize the pie chart with:
+# Percentage labels
+# Start angle
+# Clear title
+plt.pie(most_common.values,labels = most_common.index, autopct = "%1.1f%%",startangle = 90, shadow = True)
+plt.title("Workout Distribution Type")
+plt.savefig("pie_workout_distribution.png")
+plt.show()
+
+# Plot a histogram to show the age distribution of gym users.
+# Adjust the number of bins to better represent the data.
+user_age = df["Age"].clip(18,60)
+plt.hist(user_age, bins = 10)
+plt.title("Age Distribution of gym Users")
+plt.xlabel("Age")
+plt.ylabel("Number of users")
+plt.savefig("hist_age_distribution.png")
+plt.show()
+
+#Create a figure with multiple subplots (at least 4 plots in one figure).
+# Place the following in a subplot layout:
+# Scatter plot
+# Bar chart
+# Pie chart
+# Histogram
+# Add titles and axis labels to each subplot.
+# Apply grid lines where appropriate in subplots.
+# Adjust layout so plots do not overlap.
+figure,axes = plt.subplots(2,2, figsize = (12,10))
+axes[0,0].scatter(workoutDuration,caloriesBurned,alpha = 0.7)
+axes[0,0].set_title("Scatter plot")
+axes[0,0].set_xlabel("Workout Duration")
+axes[0,0].set_ylabel("Calories Burned")
+axes[0,0].grid()
+
+axes[0,1].bar(averageBurned_calorie.index, averageBurned_calorie.values)
+axes[0,1].set_title("Bar Chart")
+axes[0,1].set_xlabel("Workout Type")
+axes[0,1].set_ylabel("Average Calorie")
+axes[0,1].grid(axis = "y")
+
+axes[1,0].pie(most_common.values,labels = most_common.index, autopct = "%1.1f%%",startangle = 90, shadow = True)
+axes[1,0].set_title("Workout Distribution Type")
+
+
+axes[1,1].hist(user_age, bins = 10)
+axes[1,1].grid()
+axes[1,1].set_title("Age Distribution of gym Users")
+axes[1,1].set_xlabel("Age")
+axes[1,1].set_ylabel("Number of users")
+
+
+plt.tight_layout()
+figure.savefig("gym_dashboard.png")
+plt.show()
